@@ -21,7 +21,8 @@ const getOptions = (container) => {
       redirectUrl: `${getBaseUrl()}/auth/signed-in`,
       params: {
         scope: 'openid profile email',
-        state: secret
+        state: secret,
+        audience: 'https://hengholsec.com'
       }
     }
   }

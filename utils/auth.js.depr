@@ -35,15 +35,13 @@ export const setTokens = (idToken, accessToken) => {
   // window.localStorage.setItem('user', JSON.stringify(jwtDecode(token)))
   // Cookie.set('jwt', token)
 
-  console.log(idToken);
-  console.log(accessToken);
+  window.localStorage.setItem(STORAGE_KEYS.idToken, idToken)
+  window.localStorage.setItem(STORAGE_KEYS.accessToken, accessToken)
 
-  // window.localStorage.setItem(STORAGE_KEYS.idToken, idToken)
-  // window.localStorage.setItem(STORAGE_KEYS.accessToken, accessToken)
-  // window.localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(jwtDecode(idToken)))
-  //
-  // Cookie.set(STORAGE_KEYS.idToken, idToken)
-  // Cookie.set(STORAGE_KEYS.accessToken, accessToken)
+  window.localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(jwtDecode(idToken)))
+
+  Cookie.set(STORAGE_KEYS.idToken, idToken)
+  Cookie.set(STORAGE_KEYS.accessToken, accessToken)
 }
 
 export const unsetToken = () => {
