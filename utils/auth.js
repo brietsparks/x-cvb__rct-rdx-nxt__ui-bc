@@ -4,8 +4,6 @@ import Cookie from 'js-cookie'
 // to be used for both local store and cookies
 const STORAGE_KEYS = {
   accessToken: 'access_token',
-  idToken: 'id_token',
-  user: 'user',
   secret: 'secret',
   logout: 'logout'
 };
@@ -23,62 +21,46 @@ export const extractInfoFromHash = () => {
     return undefined
   }
 
-  const {id_token, access_token, state} = getQueryParams()
-  return {idToken: id_token, accessToken: access_token, secret: state}
+  const {access_token, state} = getQueryParams()
+  return {accessToken: access_token, secret: state}
 }
 
-export const setTokens = (idToken, accessToken) => {
+export const setToken = (accessToken) => {
   if (!process.browser) {
     return
   }
-  // window.localStorage.setItem('token', token)
-  // window.localStorage.setItem('user', JSON.stringify(jwtDecode(token)))
-  // Cookie.set('jwt', token)
 
-  console.log(idToken);
-  console.log(accessToken);
-
-  // window.localStorage.setItem(STORAGE_KEYS.idToken, idToken)
-  // window.localStorage.setItem(STORAGE_KEYS.accessToken, accessToken)
-  // window.localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(jwtDecode(idToken)))
-  //
-  // Cookie.set(STORAGE_KEYS.idToken, idToken)
-  // Cookie.set(STORAGE_KEYS.accessToken, accessToken)
+  window.localStorage.setItem(STORAGE_KEYS.accessToken, accessToken)
+  Cookie.set(STORAGE_KEYS.accessToken, accessToken)
 }
 
 export const unsetToken = () => {
   if (!process.browser) {
     return
   }
-  // window.localStorage.removeItem('token')
-  window.localStorage.removeItem(STORAGE_KEYS.idToken)
+
   window.localStorage.removeItem(STORAGE_KEYS.accessToken)
-
-  window.localStorage.removeItem(STORAGE_KEYS.user)
   window.localStorage.removeItem(STORAGE_KEYS.secret)
-
-  // Cookie.remove('jwt')
-  Cookie.remove(STORAGE_KEYS.idToken)
   Cookie.remove(STORAGE_KEYS.accessToken)
 
   window.localStorage.setItem(STORAGE_KEYS.logout, Date.now())
 }
 
-export const getUserFromCookie = (req) => {
+export const getAccessTokenFromCookie = (req) => {
   if (!req.headers.cookie) {
     return undefined
   }
-  const jwtCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith(`${STORAGE_KEYS.idToken}=`))
-  if (!jwtCookie) {
+  const accessTokenCookie = req.headers.cookie.split(';').find(c => c.trim().startsWith(`${STORAGE_KEYS.accessToken}=`))
+  if (!accessTokenCookie) {
     return undefined
   }
-  const jwt = jwtCookie.split('=')[1]
-  return jwtDecode(jwt)
+  const token = accessTokenCookie.split('=')[1]
+  return jwtDecode(token)
 }
 
-export const getUserFromLocalStorage = () => {
-  const json = window.localStorage.user
-  return json ? JSON.parse(json) : undefined
+export const getAccessTokenFromLocalStorage =  () => {
+  return window.localStorage[STORAGE_KEYS.accessToken]
+  // return json ? JSON.parse(json) : undefined
 }
 
 export const setSecret = (secret) => window.localStorage.setItem(STORAGE_KEYS.secret, secret)

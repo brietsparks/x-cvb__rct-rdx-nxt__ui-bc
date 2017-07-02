@@ -2,17 +2,17 @@ import React from 'react'
 import Head from 'next/head'
 import Router from 'next/router'
 import Header from '../components/Header'
-import { getUserFromCookie, getUserFromLocalStorage } from '../utils/auth'
+import { getAccessTokenFromCookie, getAccessTokenFromLocalStorage } from '../utils/auth'
 
 export default Page => class DefaultPage extends React.Component {
   static getInitialProps (ctx) {
-    const loggedUser = process.browser ? getUserFromLocalStorage() : getUserFromCookie(ctx.req)
+    const accessToken = process.browser ? getAccessTokenFromLocalStorage() : getAccessTokenFromCookie(ctx.req)
     const pageProps = Page.getInitialProps && Page.getInitialProps(ctx)
     return {
       ...pageProps,
-      loggedUser,
+      accessToken,
       currentUrl: ctx.pathname,
-      isAuthenticated: !!loggedUser
+      isAuthenticated: !!accessToken
     }
   }
 

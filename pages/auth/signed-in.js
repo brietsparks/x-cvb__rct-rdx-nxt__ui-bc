@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Router from 'next/router'
 
-import { setTokens, checkSecret, extractInfoFromHash } from '../../utils/auth'
+import { setToken, checkSecret, extractInfoFromHash } from '../../utils/auth'
 
 export default class SignedIn extends React.Component {
   static propTypes = {
@@ -9,11 +9,12 @@ export default class SignedIn extends React.Component {
   }
 
   componentDidMount () {
-    const {idToken, accessToken, secret} = extractInfoFromHash()
-    if (!checkSecret(secret) || !idToken || !accessToken) {
+    const {accessToken, secret} = extractInfoFromHash()
+    if (!checkSecret(secret) || !accessToken) {
       console.error('Something happened with the Sign In request')
     }
-    setTokens(idToken, accessToken)
+
+    setToken(accessToken);
     Router.push('/')
   }
   

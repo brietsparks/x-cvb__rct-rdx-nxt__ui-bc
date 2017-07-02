@@ -20,7 +20,7 @@ export class Builder extends React.Component {
 
   async testFetch() {
     // get access token
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('access_token');
     console.log(localStorage);
     if (!accessToken) {
       throw new Error('No access token found');
