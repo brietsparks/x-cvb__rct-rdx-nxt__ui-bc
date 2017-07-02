@@ -3,10 +3,10 @@ import Link from 'next/link'
 
 const links = [
   { href: '/', text: 'Home' },
-  { href: '/about', text: 'About' },
-  { href: '/secret', text: 'Top Secret', authRequired: true },
-  { href: '/auth/sign-in', text: 'Sign In', anonymousOnly: true },
-  { href: '/auth/sign-off', text: 'Sign Off', authRequired: true }
+  { href: '/builder', text: 'Builder', authRequired: true },
+  // { href: '/viewer', text: 'Viewer', authRequired: true },
+  { href: '/auth/sign-in', text: 'Login or Register', anonymousOnly: true },
+  { href: '/auth/sign-off', text: 'Logout', authRequired: true }
 ]
 
 function getAllowedLinks (isAuthenticated) {
